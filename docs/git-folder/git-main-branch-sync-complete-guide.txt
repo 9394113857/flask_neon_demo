@@ -1,0 +1,98 @@
+====================================================
+Git Main Branch Sync — Complete Step-by-Step Guide
+====================================================
+
+ERROR SCENARIO
+--------------
+git pull --rebase origin main
+error: cannot pull with rebase: Your index contains uncommitted changes.
+
+MEANING
+-------
+- There are local changes (staged or unstaged)
+- Git will not rebase until working tree is clean
+
+====================================================
+SOLUTION — SAFE & CORRECT (RECOMMENDED)
+====================================================
+
+STEP 1: Check current status
+----------------------------
+git status
+
+----------------------------------------------------
+
+STEP 2: Stash local changes (temporary save)
+---------------------------------------------
+This safely stores your local changes.
+
+git stash push -m "temp-save-before-rebase"
+
+----------------------------------------------------
+
+STEP 3: Pull remote changes with rebase
+----------------------------------------
+This syncs GitHub commits first.
+
+git pull --rebase origin main
+
+----------------------------------------------------
+
+STEP 4: Restore your local changes
+----------------------------------
+Apply stashed changes back.
+
+git stash pop
+
+----------------------------------------------------
+
+STEP 5: Stage all files
+-----------------------
+git add .
+
+----------------------------------------------------
+
+STEP 6: Commit your changes
+---------------------------
+git commit -m "Initial Flask + Neon PostgreSQL API"
+
+----------------------------------------------------
+
+STEP 7: Push to GitHub
+----------------------
+git push origin main
+
+====================================================
+IF CONFLICT OCCURS (RARE)
+====================================================
+
+1) Open conflicted file and fix manually
+2) Stage resolved file
+   git add .
+
+3) Continue rebase
+   git rebase --continue
+
+4) Push again
+   git push origin main
+
+====================================================
+ALTERNATIVE (ONLY IF YOU WANT TO OVERWRITE GITHUB)
+====================================================
+
+WARNING: This deletes remote history.
+
+git push origin main --force
+
+====================================================
+FINAL SUCCESS STATE
+====================================================
+
+- Local main branch clean
+- Remote main branch updated
+- No rejected push errors
+- Flask + Neon project synced successfully
+
+====================================================
+END OF FILE
+====================================================

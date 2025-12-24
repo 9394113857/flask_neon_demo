@@ -1,0 +1,70 @@
+====================================================
+Git Push Fix — Remote Has Existing Commits
+Branch: main
+====================================================
+
+SCENARIO
+--------
+Error:
+! [rejected] main -> main (fetch first)
+
+Reason:
+- GitHub repository already has commits
+  (README.md / License / .gitignore created via UI)
+- Local main branch is behind remote main
+
+----------------------------------------------------
+STEP-BY-STEP FIX (SAFE & RECOMMENDED)
+----------------------------------------------------
+
+1) Check current branch and status
+----------------------------------
+git branch
+git status
+
+
+2) Pull remote changes safely (REBASE MODE)
+--------------------------------------------
+This keeps history clean and avoids merge commits.
+
+git pull --rebase origin main
+
+
+3) Push your local commits to GitHub
+------------------------------------
+git push origin main
+
+
+----------------------------------------------------
+IF A CONFLICT OCCURS (RARE)
+----------------------------------------------------
+
+1) Open the conflicted file and fix manually
+2) Stage the fixed file
+   git add .
+
+3) Continue rebase
+   git rebase --continue
+
+4) Push again
+   git push origin main
+
+
+----------------------------------------------------
+ALTERNATIVE (DANGEROUS — USE ONLY IF NEEDED)
+----------------------------------------------------
+This OVERWRITES GitHub main branch.
+
+git push origin main --force
+
+
+----------------------------------------------------
+FINAL SUCCESS STATE
+----------------------------------------------------
+- Local main branch synced
+- Remote main branch updated
+- Flask + Neon project pushed successfully
+
+====================================================
+END OF FILE
+====================================================
