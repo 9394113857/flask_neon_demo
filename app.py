@@ -1,24 +1,25 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 
 # ---------------------------------------------------
-# DIRECT NEON DATABASE CONNECTION (LOCAL TEST ONLY)
+# DATABASE CONFIG (Render + Neon)
 # ---------------------------------------------------
-app.config["SQLALCHEMY_DATABASE_URI"] = (
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
+    "DATABASE_URL",
     "postgresql+psycopg://neondb_owner:npg_FYH5UE6CBrwa@"
     "ep-morning-shape-a10y37q7-pooler.ap-southeast-1.aws.neon.tech/"
     "neondb?sslmode=require&channel_binding=require"
 )
-
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
 # ---------------------------------------------------
-# MODEL (maps to existing table)
+# MODEL
 # ---------------------------------------------------
 class TestUser(db.Model):
     __tablename__ = "test_users"
@@ -34,23 +35,16 @@ class TestUser(db.Model):
 def home():
     return {"status": "Flask + Neon connected successfully 🚀"}
 
-@app.route("/users", methods=["GET"])
+@app.route("/users")
 def get_users():
     users = TestUser.query.all()
-
-    data = [
-        {
-            "id": user.id,
-            "name": user.name,
-            "email": user.email
-        }
-        for user in users
-    ]
-
-    return jsonify(data)
+    return jsonify([
+        {"id": u.id, "name": u.name, "email": u.email}
+        for u in users
+    ])
 
 # ---------------------------------------------------
-# RUN
+# LOCAL RUN ONLY
 # ---------------------------------------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
