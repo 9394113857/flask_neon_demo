@@ -1,0 +1,17 @@
+REM =========================================
+REM Flask + Neon API (Render - Production)
+REM Base URL:
+REM https://flask-neon-demo-0mnd.onrender.com
+REM =========================================
+
+REM 1) Health check (confirm app is running)
+curl https://flask-neon-demo-0mnd.onrender.com/
+
+REM 2) Fetch users from Neon PostgreSQL
+curl https://flask-neon-demo-0mnd.onrender.com/users
+
+REM 3) Pretty JSON output (PowerShell only)
+curl https://flask-neon-demo-0mnd.onrender.com/users | ConvertFrom-Json | ConvertTo-Json -Depth 5
+
+REM 4) Verbose mode (headers + status + TLS)
+curl -v https://flask-neon-demo-0mnd.onrender.com/users
