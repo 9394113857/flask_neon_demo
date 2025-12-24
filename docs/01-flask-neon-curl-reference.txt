@@ -1,0 +1,97 @@
+====================================================
+Flask + Neon PostgreSQL — LOCAL TESTING REFERENCE
+====================================================
+
+PROJECT
+-------
+flask_neon_demo
+
+PURPOSE
+-------
+- Verify Flask REST API connectivity
+- Verify SQLAlchemy + psycopg3
+- Verify Neon PostgreSQL data fetch
+- Local-only testing (credentials hardcoded)
+
+----------------------------------------------------
+RUN APPLICATION
+----------------------------------------------------
+1) Activate virtual environment
+   .\venv\Scripts\activate
+
+2) Run Flask app
+   python app.py
+
+3) Flask should run at:
+   http://127.0.0.1:5000
+
+----------------------------------------------------
+CURL COMMANDS (CMD / PowerShell)
+----------------------------------------------------
+
+[1] Health Check
+----------------
+Checks if Flask app is running.
+
+curl http://127.0.0.1:5000/
+
+Expected Output:
+{
+  "status": "Flask + Neon connected successfully 🚀"
+}
+
+----------------------------------------------------
+
+[2] Fetch Users from Neon DB
+----------------------------
+Reads data from table: test_users
+
+curl http://127.0.0.1:5000/users
+
+Expected Output:
+[
+  {
+    "id": 1,
+    "name": "Raghu",
+    "email": "raghu@test.com"
+  }
+]
+
+----------------------------------------------------
+
+[3] Pretty JSON (PowerShell only)
+--------------------------------
+Formats JSON output for readability.
+
+curl http://127.0.0.1:5000/users | ConvertFrom-Json | ConvertTo-Json -Depth 5
+
+----------------------------------------------------
+
+[4] Verbose Debug Mode
+---------------------
+Shows headers, status codes, and connection info.
+
+curl -v http://127.0.0.1:5000/users
+
+----------------------------------------------------
+IMPORTANT NOTES
+----------------------------------------------------
+- Using psycopg3 → URL must start with:
+  postgresql+psycopg://
+
+- SQLite is NOT used here.
+- Neon PostgreSQL is accessed over SSL.
+- Hardcoded DB credentials are OK ONLY for local testing.
+- Do NOT push credentials to GitHub.
+
+----------------------------------------------------
+NEXT STEPS (LATER)
+----------------------------------------------------
+- Move DB URL to .env
+- Convert to create_app() pattern
+- Add Flask-Migrate
+- Deploy on Render safely
+
+====================================================
+END OF FILE
+====================================================
